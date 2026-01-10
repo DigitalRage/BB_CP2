@@ -3,8 +3,7 @@
 import msvcrt, time
 
 #Clear screen function
-def wipe(): 
-    return print("\033c",end="")
+wipe = lambda: print("\033c", end="")
 
 print("text")
 wipe()
@@ -18,12 +17,12 @@ def read_action():
 
 #make divide function
 def mult(item): 
-    
+    pass
 
 #Make menu
 stuf = 0
 
-
+time.perf_counter()
 #Get action
 #move through menu code
 while True: 
@@ -34,21 +33,20 @@ while True:
     item.replace(" ", ">")
     if action == 'up': 
         stuf += 1
-        time.sleep(0.05)
+        time.sleep(0.01)
         print(item)
     elif action == 'down': 
         stuf -= 1
-        time.sleep(0.05)
+        time.sleep(0.01)
         print(item)
     elif action == 'left': 
-        stuf -= 0.5
-        time.sleep(0.05)
+        stuf -= 1
+        time.sleep(0.01)
         print(item)
     elif action == 'right': 
-        stuf += 0.5
-        time.sleep(0.05)
+        stuf += 1
+        time.sleep(0.01)
         print(item)
         
     else: 
-        time.sleep(0.05)
-        print("Wait")
+        time.sleep(0.01)
