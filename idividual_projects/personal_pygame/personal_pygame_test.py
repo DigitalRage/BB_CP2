@@ -1,10 +1,11 @@
-# test_game.py
 import standard_pygame as sp
 
-engine = sp.Engine(120, 60)
+engine = sp.Engine(300, 60)
 
-# Make sure player.png exists and that its top-left pixel is your "background" color
-player = sp.Image("player.png").size(40)
-engine.add(player, 10, 10)
+bg = sp.Image("background.png").size(800)
+engine.add(bg, 0, 0, layer=0)
+
+player = sp.Image("player.png").size(20)
+engine.add(player, 150, 45, layer=5)
 
 engine.run()
