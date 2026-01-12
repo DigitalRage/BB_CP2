@@ -1,4 +1,5 @@
 import sys, os, time, tkinter as tk, msvcrt
+from music_controller import MusicController   # <-- ADDED
 
 RESET = "\033[0m"
 wipe = lambda: print("\033[2J", end="")
@@ -137,39 +138,74 @@ def get_input():
     return action, time.perf_counter() - start
 
 # ---------------------------------------------------------
-# ENGINE (with move‑mode toggle)
+# ENGINE (with move‑mode toggle + MUSIC)
 # ---------------------------------------------------------
 class Engine:
     def __init__(self, w=120, h=30):
         self.fb = Framebuffer(w, h)
-        self.entities = []  # [Image, Position, layer]
+        self.entities = []
         self.running = True
 
         self.cam_x = 0
         self.cam_y = 0
-
-        # NEW: toggle between player‑movement and background‑movement
         self.move_with_background = True
+
+        # -------------------------
+        # MUSIC SETUP
+        # -------------------------
+        base = os.path.dirname(os.path.abspath(__file__))
+        requested = {
+            "battle": "Organization Battle.wav",
+            "town": "Twilight Town.wav",
+            "destiny": "Destiny Islands.wav",
+            "final1": "KH-CoM Final Battle1.wav",
+            "final2": "KH-CoM Final Battle2.wav",
+        }
+
+        tracks = {}
+        for key, fname in requested.items():
+            p = os.path.join(base, fname)
+            if os.path.exists(p):
+                tracks[key] = p
+
+        self.music = MusicController(tracks)
 
     def add(self, image, x, y, layer=0):
         self.entities.append([image, Position(x, y), layer])
 
     def run(self):
         wipe()
+
+        # Start default music
+        if "town" in self.music.tracks:
+            self.music.play("town")
+
         while self.running:
             act, dur = get_input()
 
+            # Quit
             if act == "q":
+                self.music.stop_all()
                 self.running = False
 
             # Toggle movement mode
             if act == "b":
                 self.move_with_background = not self.move_with_background
 
+            # MUSIC CONTROLS
+            if act == "1": self.music.play("town")
+            if act == "2": self.music.play("battle")
+            if act == "3": self.music.play("destiny")
+            if act == "4": self.music.play("final1")
+            if act == "5": self.music.play("final2")
+            if act == "m": self.music.pause()
+            if act == "n": self.music.resume()
+            if act == "x": self.music.stop()
+
             # Player (first entity)
             img, pos, layer = self.entities[0]
 
-            # MODE A: Background moves (camera scrolls)
+            # MODE A: Background moves
             if self.move_with_background:
                 cam_speed = 2
                 if act == "left":  self.cam_x -= cam_speed
@@ -177,7 +213,7 @@ class Engine:
                 if act == "up":    self.cam_y -= cam_speed
                 if act == "down":  self.cam_y += cam_speed
 
-            # MODE B: Player moves (camera stays still)
+            # MODE B: Player moves
             else:
                 move_speed = 1
                 if act == "left":  pos.x -= move_speed
@@ -188,9 +224,9 @@ class Engine:
             # Draw
             self.fb.clear()
             for img, pos, layer in sorted(self.entities, key=lambda e: e[2]):
-                screen_x = pos.x - self.cam_x
-                screen_y = pos.y - self.cam_y
-                self.fb.blit(img.sprite, int(screen_x), int(screen_y))
+                sx = pos.x - self.cam_x
+                sy = pos.y - self.cam_y
+                self.fb.blit(img.sprite, int(sx), int(sy))
 
             self.fb.render()
             time.sleep(1 / 30)
