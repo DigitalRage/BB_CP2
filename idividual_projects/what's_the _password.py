@@ -1,3 +1,4 @@
+#BB 1st Random Password Generator Project
 import random
 
 # Returns a random lowercase letter for the password
