@@ -3,16 +3,14 @@ import csv
 while True:
     try:
         # Try to open the CSV file
-        with open("idividual_projects/Movie_Recommend/movie_recommender.py", mode="r") as csv_file:
+        with open("idividual_projects\Movie_Recommend\Movies list.csv", mode="r") as csv_file:
             reader = csv.reader(csv_file)
-
-            # Read the header row first
-            headers = next(reader)
-
+            
             # Store each movie as a dictionary
             movies = []
+            # Create a list
             for line in reader:
-                # Create a dictionary using the header names
+                # Create a dictionary using the section names
                 movie = {
                     "title": line[0].strip(),
                     "director": line[1].strip().lower(),
@@ -24,13 +22,13 @@ while True:
                 movies.append(movie)
 
     except:
-        print("Can't find movies.csv — make sure it is in the same folder.")
+        print("Can't find movies.csv.")
     else:
         print("Movie list loaded successfully.\n")
         break
 
 
-# Filter functions (simple, direct, readable)
+# Filter functions (e.g., filter_by_genre, filter_by_director, etc.)
 
 def filter_by_genre(movie_list, genre):
     genre = genre.lower().strip()
@@ -72,7 +70,7 @@ def print_movies(movie_list):
         print(f"Length: {m['length']} min\n")
 
 
-# Main program loop (simple while True like your example)
+# Main program loop
 
 while True:
     print("MAIN MENU")
@@ -83,8 +81,8 @@ while True:
     choice = input("Enter your choice: ").strip()
 
     if choice == "1":
-        # Ask which filters to use
-        print("\nChoose filters (e.g., 1,3):")
+        # Ask which filter to use
+        print("\nChoose filter: ")
         print("1. Genre")
         print("2. Director")
         print("3. Actor")
