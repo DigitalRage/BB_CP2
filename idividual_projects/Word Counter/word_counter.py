@@ -5,4 +5,4 @@ def word_count(file_path):
         content = file.read()
         words = content.split()
         num_words = len(words)
-        print(f"Number of words in the document: {num_words}")
+        return f"Word Count: {num_words}"

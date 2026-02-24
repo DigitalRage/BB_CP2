@@ -5,8 +5,7 @@ def update_doc_info(file_path):
     mod_time = datetime.datetime.fromtimestamp(os.path.getmtime(file_path))
     mod_time = str(mod_time)
     clean_mod = mod_time[:19]
-    print(f"Last Updated: {clean_mod}")
-    return clean_mod
+    return f"Last Updated: {clean_mod}"
 #test code
 if __name__ == "__main__":
     test_file_path = "notes/reading.txt"
