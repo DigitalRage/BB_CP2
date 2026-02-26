@@ -9,9 +9,19 @@ t.speed(0)
 
 while True:
     choice = screen.textinput("Recursion Depth", "What amount of recursion would you like to see? (0-5) ")
-    if choice.isdigit() and 0 <= int(choice) <= 5:
+    if choice.isdigit() and 0 <= int(choice) <= 10:
         break
     else: print("Please enter a valid number between 0 and 5.")
+while True:
+    thickness = screen.textinput("Pen Thickness", "What pen thickness would you like? (1-10) ")
+    if thickness.isdigit() and 1 <= int(thickness) <= 10:
+        t.pensize(int(thickness))
+        break
+while True:
+    user_color = screen.textinput("Pen Color", "What pen color would you like? (e.g. 'red', 'green', 'yellow') ")
+    if user_color:
+        t.color(user_color)
+        break
 while True:
     user_background = screen.textinput("Background Color", "What background color would you like? (e.g. 'black', 'white', 'blue') ")
     if user_background:
@@ -29,7 +39,6 @@ def draw_triangle(x, y, size):
         t.left(120)
 
 # Function to do recursive drawing of the triforce pattern inside each triangle segment
-choice = int(choice) * int(choice)
 def recursive_triforce(x, y, size, depth):
     if depth == 0:
         draw_triangle(x, y, size)
@@ -39,8 +48,7 @@ def recursive_triforce(x, y, size, depth):
         recursive_triforce(x - new_size / 2, y - new_size * 0.866, new_size, depth - 1)
         recursive_triforce(x + new_size / 2, y - new_size * 0.866, new_size, depth - 1)
 
-# Main program loop
-while True:
-    t.clear()
-    recursive_triforce(0, 0, 400, int(choice))
-    T.sleep(1)
+# Main program
+t.clear()
+recursive_triforce(0, 0, 400, int(choice))
+T.sleep(10)
