@@ -19,24 +19,35 @@ while True:
         break
 while True:
     user_color = screen.textinput("Pen Color", "What pen color would you like? (e.g. 'red', 'green', 'yellow') ")
-    if user_color:
+    try:
         t.color(user_color)
         break
+    except t.TurtleGraphicsError:
+        print("Please enter a valid color.")
 while True:
     user_background = screen.textinput("Background Color", "What background color would you like? (e.g. 'black', 'white', 'blue') ")
-    if user_background:
+    try:
         screen.bgcolor(user_background)
         break
-    else:
+    except t.TurtleGraphicsError:
+        print("Please enter a valid color.")
+while True:
+    user_fill = screen.textinput("Fill Color", "What fill color would you like? (e.g. 'red', 'green', 'yellow') ")
+    try:
+        t.fillcolor(user_fill)
+        break
+    except t.TurtleGraphicsError:
         print("Please enter a valid color.")
 # Draw a triangle of the given size at the given coordinates
 def draw_triangle(x, y, size):
     t.penup()
     t.goto(x, y)
     t.pendown()
+    t.begin_fill()
     for i in range(3):
         t.forward(size)
         t.left(120)
+    t.end_fill()
 
 # Function to do recursive drawing of the triforce pattern inside each triangle segment
 def recursive_triforce(x, y, size, depth):
@@ -50,5 +61,5 @@ def recursive_triforce(x, y, size, depth):
 
 # Main program
 t.clear()
-recursive_triforce(0, 0, 400, int(choice))
+recursive_triforce(0, 400, 1000, int(choice))
 T.sleep(10)
