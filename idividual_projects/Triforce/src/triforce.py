@@ -7,11 +7,11 @@ screen = t.Screen()
 screen.tracer(1)
 t.speed(0)
 
+# Get user input for recursion depth, pen thickness, pen color, background color, and fill color
 while True:
     choice = screen.textinput("Recursion Depth", "What amount of recursion would you like to see? (0-5) ")
-    if choice.isdigit() and 0 <= int(choice) <= 10:
+    if choice.isdigit() and 0 <= int(choice) <= 5:
         break
-    else: print("Please enter a valid number between 0 and 5.")
 while True:
     thickness = screen.textinput("Pen Thickness", "What pen thickness would you like? (1-10) ")
     if thickness.isdigit() and 1 <= int(thickness) <= 10:
@@ -38,6 +38,7 @@ while True:
         break
     except t.TurtleGraphicsError:
         print("Please enter a valid color.")
+
 # Draw a triangle of the given size at the given coordinates
 def draw_triangle(x, y, size):
     t.penup()
